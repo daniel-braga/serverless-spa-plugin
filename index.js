@@ -19,6 +19,12 @@ class ServerlessPlugin {
           'distributionId',
         ],
       },
+      domainInfo: {
+        usage: 'Fetches and prints out the deployed CloudFront domain names',
+        lifecycleEvents: [
+          'domainInfo',
+        ],
+      },
       invalidateCloudFrontCache: {
         usage: 'Invalidates CloudFront cache',
         lifecycleEvents: [
@@ -29,6 +35,7 @@ class ServerlessPlugin {
 
     this.hooks = {
       'syncToS3:sync': this.syncDirectory.bind(this),
+      'domainInfo:domainInfo': this.domainInfo.bind(this),
       'distributionId:distributionId': this.distributionId.bind(this),
       'invalidateCloudFrontCache:invalidateCache': this.invalidateCache.bind(
         this,
@@ -76,6 +83,31 @@ class ServerlessPlugin {
     }
   }
 
+  // fetches the domain name from the CloudFront outputs and prints it out
+  async domainInfo() {
+
+    const distributionId = await this.distributionId();
+    const provider = this.serverless.getProvider('aws');
+    const result = await provider.request(
+      'CloudFront',
+      'getDistribution',
+      { Id: distributionId },
+      this.options.stage,
+      this.options.region,
+    );
+
+    const domainName = result.Distribution.DomainName;
+
+    if (domainName) {
+      this.serverless.cli.log(`Web App Domain: ${domainName}`);
+      return domainName;
+    }
+
+    this.serverless.cli.log('Web App Domain: Not Found');
+    const error = new Error('Could not extract Web App Domain');
+    throw error;
+  }
+
   async distributionId() {
     const provider = this.serverless.getProvider('aws');
     const stackName = provider.naming.getStackName(this.options.stage);
@@ -105,8 +137,6 @@ class ServerlessPlugin {
   }
 
   async invalidateCache() {
-    const provider = this.serverless.getProvider('aws');
-
     const distributionId = await this.distributionId();
 
     if (distributionId) {
