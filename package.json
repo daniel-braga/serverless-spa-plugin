@@ -1,7 +1,7 @@
 {
   "name": "serverless-spa-plugin",
   "description": "A plugin to simplify deploying Single Page Applications using S3 and CloudFront",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "index.js",
   "author": "Daniel Braga <daniel@danielbraga.com>",
   "license": "MIT",
