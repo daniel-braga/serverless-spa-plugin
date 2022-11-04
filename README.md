@@ -1,26 +1,27 @@
-#  Serverless SPA Plugin
+# Serverless SPA Plugin
 
 A plugin for [Serverless Framework](https://serverless.com), to simplify deploying Single Page Application using S3 and CloudFront.
 
 Based on the [official example](https://github.com/serverless/examples/tree/master/aws-node-single-page-app-via-cloudfront/serverless-single-page-app-plugin), with some important tweaks:
 
-* Configurable app source directory
-* Configurable stack output name to indicate the distribution id
+- Configurable app source directory
+- Configurable stack output name to indicate the distribution id
 
 ## Instalation
 
 Install the package with NPM or Yarn.
 
 NPM:
+
 ```
-npm install --save-dev @daniel-braga/serverless-spa-plugin
+npm install --save-dev @threeleafsoftware/serverless-spa-plugin
 ```
 
 Yarn:
-```
-yarn add --dev @daniel-braga/serverless-spa-plugin
-```
 
+```
+yarn add --dev @threeleafsoftware/serverless-spa-plugin
+```
 
 ## Setup
 
@@ -28,7 +29,7 @@ Then register it in your serverless.yml file, as a plugin:
 
 ```
 plugins:
-  - @daniel-braga/serverless-spa-plugin
+  - @threeleafsoftware/serverless-spa-plugin
 ```
 
 Set plugin variables:
@@ -42,6 +43,7 @@ custom:
 ```
 
 Finally, add appropriately-named resources (Origin Access Control, Bucket, BucketPolicy and Distribution) and Outputs:
+
 ```
 service: 'my-webapp'
 frameworkVersion: '3'
@@ -169,8 +171,8 @@ In order to deploy the Single Page Application you need to setup the infrastruct
 ```
 serverless deploy
 ```
-The expected result should be similar to:
 
+The expected result should be similar to:
 
 ```
 Serverless: Packaging service…
@@ -200,6 +202,7 @@ serverless syncToS3
 ```
 
 The expected result should be similar to
+
 ```
 Serverless: upload: dist/index.html to s3://my.webapp.com/index.html
 Serverless: upload: dist/app.js to s3://my.webapp.com/app.js
@@ -207,11 +210,13 @@ Serverless: Successfully synced to the S3 bucket
 ```
 
 Now you just need to figure out the deployed URL. You can use the AWS Console UI or run
+
 ```
 sls domainInfo
 ```
 
 The expected result should be similar to
+
 ```
 Serverless: Web App Domain: dyj5gf0t6nqke.cloudfront.net
 ```
@@ -219,11 +224,13 @@ Serverless: Web App Domain: dyj5gf0t6nqke.cloudfront.net
 Visit the printed domain domain and navigate on the web site. It should automatically redirect you to HTTPS and visiting /about will not result in an error with the status code 404, but rather serves the index.html and renders the about page.
 
 ## Re-deploying
+
 If you make changes to your Single Page Application you might need to invalidate CloudFront's cache to make sure new files are served. Meaning, run:
 
 ```
 serverless syncToS3
 ```
+
 To sync your files and then:
 
 ```

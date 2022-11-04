@@ -1,9 +1,51 @@
 {
-  "name": "serverless-spa-plugin",
+  "name": "@threeleafsoftware/serverless-spa-plugin",
   "description": "A plugin to simplify deploying Single Page Applications using S3 and CloudFront",
-  "version": "1.0.1",
+  "version": "0.0.0-development",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/threeleafsoftware/serverless-spa-plugin.git"
+  },
   "author": "Daniel Braga <daniel@danielbraga.com>",
   "license": "MIT",
-  "private": false
+  "private": false,
+  "homepage": "https://github.com/threeleafsoftware/serverless-spa-plugin",
+  "devDependencies": {
+    "@commitlint/cli": "^17.2.0",
+    "@commitlint/config-conventional": "^17.2.0",
+    "@semantic-release/changelog": "^6.0.1",
+    "@semantic-release/git": "^10.0.1",
+    "husky": "^8.0.1",
+    "semantic-release": "^19.0.5"
+  },
+  "scripts": {
+    "semantic-release": "semantic-release",
+    "prepare": "husky install"
+  },
+  "release": {
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      [
+        "@semantic-release/npm",
+        {
+          "npmPublish": false
+        }
+      ],
+      "@semantic-release/changelog",
+      [
+        "@semantic-release/git",
+        {
+          "message": "chore: ${nextRelease.version}",
+          "assets": [
+            "CHANGELOG.md"
+          ]
+        }
+      ]
+    ],
+    "branches": [
+      "main"
+    ]
+  }
 }
