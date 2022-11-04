@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/threeleafsoftware/serverless-spa-plugin/compare/v1.0.0...v1.0.1) (2022-11-04)
+
+
+### Bug Fixes
+
+* force package release ([eedc99e](https://github.com/threeleafsoftware/serverless-spa-plugin/commit/eedc99ede45c5173009880a90a57323aef6070b8))
+
 # 1.0.0 (2022-11-04)
 
 
